@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading...</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#111;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#aaa;font-family:monospace;gap:14px}
+#bw{width:320px;height:6px;background:#222;border-radius:3px;overflow:hidden}
+#b{width:0%;height:100%;background:#4ade80;border-radius:3px;transition:width .3s}
+</style>
+</head>
+<body>
+<div id="t">loading...</div>
+<div id="bw"><div id="b"></div></div>
+<script>
+const P=["p1.txt", "p2.txt"];
+const t=document.getElementById("t"),b=document.getElementById("b");
+(async()=>{
+let h="";
+for(let i=0;i<P.length;i++){
+t.textContent="loading part "+(i+1)+" / "+P.length+"...";
+b.style.width=((i+1)/P.length*100)+"%";
+const r=await fetch(P[i]);
+if(!r.ok){t.textContent="failed: "+P[i];return}
+h+=await r.text();
+}
+t.textContent="starting...";
+document.open();document.write(h);document.close();
+})();
+</script>
+</body>
+</html>
